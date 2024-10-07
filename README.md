@@ -130,3 +130,6 @@
 - P101_Persona
 - P102_Autor
 - P103_Cliente
+## Actividad 17
+- P106_Persona2
+- P107_Forma
