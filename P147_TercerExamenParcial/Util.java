@@ -4,26 +4,21 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class Util {
-        public static ArrayList<Jugador> inicializarDatos() {
-        ArrayList<Jugador> datos = new ArrayList<>();
-        //datos.add(new Jugador("Misael Campos", 23, "M", "Casado", "nose", 1231.12));
-        return datos;
+
+    public static void serializarDatos(String fileName, ArrayList<Jugador> datos) throws IOException {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
+            oos.writeObject(datos);  
+        }
     }
 
-    public static void serializarDatos(String archivo, ArrayList<Jugador> datos) throws IOException {
-        FileOutputStream arch = new FileOutputStream(archivo);
-        ObjectOutputStream fpersonas = new ObjectOutputStream(arch);
-        fpersonas.writeObject(datos);
-        fpersonas.close();
-    }
+    public static ArrayList<Jugador> desSerializarDatos(String fileName) throws IOException, ClassNotFoundException {
+        File file = new File(fileName);
+        if (!file.exists()) {
+            throw new FileNotFoundException("El archivo no existe: " + fileName);
+        }
 
-    public static ArrayList<Jugador> desSerializarDatos(String archivo) throws IOException,
-            ClassNotFoundException {
-        ArrayList<Jugador> datos;
-        FileInputStream arch = new FileInputStream(archivo);
-        ObjectInputStream fpersonas = new ObjectInputStream(arch);
-        datos = (ArrayList<Jugador>) fpersonas.readObject();
-        fpersonas.close();
-        return datos;
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
+            return (ArrayList<Jugador>) ois.readObject();  // Lee el objeto del archivo y lo convierte a ArrayList<Jugador>
+        }
     }
 }
